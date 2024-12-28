@@ -1,3 +1,5 @@
+# Public Subnet
+# Subnet will use cidr with /24 -> The number of availability IP is 256
 resource "aws_subnet" "public" {
   count = length(var.cidr_numeral_public)
   vpc_id = aws_vpc.main.id
@@ -10,6 +12,8 @@ resource "aws_subnet" "public" {
   }
 }
 
+# Private Subnet
+# Subnet will use cidr with /24 -> The number of availability IP is 256
 resource "aws_subnet" "private" {
   count = length(var.cidr_numeral_private)
   vpc_id = aws_vpc.main.id

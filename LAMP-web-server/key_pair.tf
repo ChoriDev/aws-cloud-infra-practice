@@ -9,6 +9,6 @@ resource "aws_key_pair" "ec2_key_pair" {
 }
 
 resource "local_file" "ec2_key" {
-  filename = "ec2_key_pair"
+  filename = "ec2_key_pair.pem"
   content = tls_private_key.ec2_private_key.private_key_pem
 }

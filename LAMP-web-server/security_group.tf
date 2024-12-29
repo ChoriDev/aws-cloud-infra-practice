@@ -35,3 +35,10 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   ip_protocol = "tcp"
   to_port = 443
 }
+
+# Outbound rule allowing all traffic
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic" {
+  security_group_id = aws_security_group.public_ec2_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
+  ip_protocol = "-1"
+}

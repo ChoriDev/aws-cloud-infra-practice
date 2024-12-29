@@ -1,3 +1,4 @@
+# Security group for public ec2
 resource "aws_security_group" "public_ec2_sg" {
   name = "public-ec2-sg"
   description = "Security group for public ec2 instance"
@@ -8,6 +9,7 @@ resource "aws_security_group" "public_ec2_sg" {
   }
 }
 
+# Inbound rule allowing SSH
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
@@ -16,6 +18,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   to_port = 22
 }
 
+# Inbound rule allowing HTTP
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
@@ -24,6 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   to_port = 80
 }
 
+# Inbound rule allowing HTTPS
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"

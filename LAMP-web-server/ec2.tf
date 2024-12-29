@@ -1,3 +1,4 @@
+# Public-ec2-0
 resource "aws_instance" "public" {
   ami = "ami-0dc44556af6f78a7b" # Ubuntu Server 24.04 LTS (HVM), x86
   instance_type = "t2.micro"

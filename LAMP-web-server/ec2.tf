@@ -1,5 +1,5 @@
 # Public-ec2-0
-resource "aws_instance" "public" {
+resource "aws_instance" "public_ec2_0" {
   ami = "ami-0dc44556af6f78a7b" # Ubuntu Server 24.04 LTS (HVM), x86
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_key_pair.key_name
@@ -33,4 +33,24 @@ resource "aws_instance" "public" {
     find /var/www/html -type f -exec chmod 0664 {} \;
     echo "<?php phpinfo(); ?>" > /var/www/html/index.php
   EOF
+}
+
+# Public-ec2-1
+resource "aws_instance" "public_ec2_1" {
+  ami = aws_ami.ami_public_ec2_main.id # Custom AMI
+  instance_type = "t2.micro"
+  key_name = aws_key_pair.ec2_key_pair.key_name
+  vpc_security_group_ids = [ aws_security_group.public_ec2_sg.id ]
+  subnet_id = aws_subnet.public[1].id
+
+  tags = {
+    Name = "public-ec2-1-${var.vpc_name}"
+  }
+
+  metadata_options {
+    http_endpoint = "enabled"
+    http_put_response_hop_limit = 1
+    http_tokens = "optional"
+    instance_metadata_tags = "enabled"
+  }
 }

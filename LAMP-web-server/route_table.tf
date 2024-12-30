@@ -18,7 +18,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_route" "public_igw" {
   route_table_id = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.default.id
+  gateway_id = aws_internet_gateway.main.id
 }
 
 # Route Table for private subnets

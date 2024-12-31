@@ -1,7 +1,7 @@
 # Public-ec2
 resource "aws_instance" "public_ec2" {
   count = length(var.cidr_numeral_public)
-  ami = "ami-049788618f07e189d" # Amazon Linux 2023, x86
+  ami = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_key_pair.key_name
   vpc_security_group_ids = [ aws_security_group.public_ec2_sg.id ]

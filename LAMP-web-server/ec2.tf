@@ -4,7 +4,7 @@ resource "aws_instance" "public_ec2" {
   ami = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_key_pair.key_name
-  vpc_security_group_ids = [ aws_security_group.public_ec2_sg.id ]
+  vpc_security_group_ids = [aws_security_group.public_ec2_sg.id]
   subnet_id = element(aws_subnet.public.*.id, count.index)
 
   tags = {

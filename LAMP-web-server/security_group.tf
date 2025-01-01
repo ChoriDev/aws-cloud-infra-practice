@@ -9,8 +9,8 @@ resource "aws_security_group" "public_ec2_sg" {
   }
 }
 
-# Inbound rule allowing SSH
-resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
+# Inbound rule allowing SSH for ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_ssh_for_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 22
@@ -18,8 +18,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   to_port = 22
 }
 
-# Inbound rule allowing HTTP
-resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+# Inbound rule allowing HTTP for ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_http_for_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 80
@@ -27,8 +27,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   to_port = 80
 }
 
-# Inbound rule allowing HTTPS
-resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+# Inbound rule allowing HTTPS for ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_https_for_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 443
@@ -54,8 +54,8 @@ resource "aws_security_group" "efs_sg" {
   }
 }
 
-# Inbound rule allowing EFS
-resource "aws_vpc_security_group_ingress_rule" "allow_efs" {
+# Inbound rule allowing NFS for EFS
+resource "aws_vpc_security_group_ingress_rule" "allow_nfs_for_efs" {
   security_group_id = aws_security_group.efs_sg.id
   # Fill in below value with security group whose instance will connect to EFS
   referenced_security_group_id = aws_security_group.public_ec2_sg.id

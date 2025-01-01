@@ -2,4 +2,5 @@
 .terraform.lock.hcl
 *.tfstate
 
-ec2_key_pair.pem
+public_ec2_key_pair.pem
+private_ec2_key_pair.pem

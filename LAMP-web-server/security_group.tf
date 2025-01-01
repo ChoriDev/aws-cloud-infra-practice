@@ -9,8 +9,8 @@ resource "aws_security_group" "public_ec2_sg" {
   }
 }
 
-# Inbound rule allowing SSH for ec2
-resource "aws_vpc_security_group_ingress_rule" "allow_ssh_for_ec2" {
+# Inbound rule allowing SSH for public ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_ssh_for_public_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 22
@@ -18,8 +18,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh_for_ec2" {
   to_port = 22
 }
 
-# Inbound rule allowing HTTP for ec2
-resource "aws_vpc_security_group_ingress_rule" "allow_http_for_ec2" {
+# Inbound rule allowing HTTP for public ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_http_for_public_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 80
@@ -27,8 +27,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_for_ec2" {
   to_port = 80
 }
 
-# Inbound rule allowing HTTPS for ec2
-resource "aws_vpc_security_group_ingress_rule" "allow_https_for_ec2" {
+# Inbound rule allowing HTTPS for public ec2
+resource "aws_vpc_security_group_ingress_rule" "allow_https_for_public_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 443
@@ -36,8 +36,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https_for_ec2" {
   to_port = 443
 }
 
-# Outbound rule allowing all traffic for ec2
-resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_ec2" {
+# Outbound rule allowing all traffic for public ec2
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_public_ec2" {
   security_group_id = aws_security_group.public_ec2_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = "-1"

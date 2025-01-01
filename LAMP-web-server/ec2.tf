@@ -1,4 +1,4 @@
-# Public-ec2
+# Public ec2
 resource "aws_instance" "public_ec2" {
   count = length(var.cidr_numeral_public)
   ami = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86

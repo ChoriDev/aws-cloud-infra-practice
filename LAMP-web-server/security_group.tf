@@ -70,3 +70,30 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_ef
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = "-1"
 }
+
+# Security group for ALB
+resource "aws_security_group" "alb_public_sg" {
+  name = "alb-public-sg"
+  description = "Security group for alb"
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "alb-public-sg"
+  }
+}
+
+# Inbound rule allowing HTTP for ALB
+resource "aws_vpc_security_group_ingress_rule" "allow_http_for_alb" {
+  security_group_id = aws_security_group.alb_public_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port = 80
+  ip_protocol = "tcp"
+  to_port = 80
+}
+
+# Outbound rule allowing all traffic for ALB
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_alb" {
+  security_group_id = aws_security_group.alb_public_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
+  ip_protocol = "-1"
+}

@@ -36,7 +36,7 @@ resource "aws_instance" "public_ec2" {
 # Private ec2
 resource "aws_instance" "private_ec2" {
   count = length(var.cidr_numeral_private)
-  ami = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86
+  ami = aws_ami_from_instance.public_ec2_ami.id # public ec2 ami
   instance_type = "t2.micro"
   key_name = aws_key_pair.private_ec2_key_pair.key_name
   vpc_security_group_ids = [aws_security_group.private_ec2_sg.id]
@@ -52,18 +52,4 @@ resource "aws_instance" "private_ec2" {
     http_tokens = "optional"
     instance_metadata_tags = "enabled"
   }
-
-  user_data = <<-EOF
-    #!/bin/bash
-    yum update -y
-    amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-    yum install -y httpd mariadb-server
-    systemctl start httpd
-    systemctl enable httpd
-    usermod -a -G apache ec2-user
-    chown -R ec2-user:apache /var/www
-    chmod 2775 /var/www
-    find /var/www -type d -exec chmod 2775 {} \;
-    find /var/www -type f -exec chmod 0664 {} \;
-  EOF
 }

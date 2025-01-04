@@ -1,6 +1,6 @@
 # Elastic IP for public ec2
 resource "aws_eip" "public_ec2" {
-  count = length(var.cidr_numeral_public)
+  count = length(var.availability_zones)
   instance = element(aws_instance.public_ec2.*.id, count.index)
   domain = "vpc"
   
@@ -11,7 +11,7 @@ resource "aws_eip" "public_ec2" {
 
 # Elastic IP for nat gateway
 resource "aws_eip" "nat_gateway" {
-  count = length(var.cidr_numeral_public)
+  count = length(var.availability_zones)
   domain = "vpc"
   
   tags = {

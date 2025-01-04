@@ -1,7 +1,7 @@
 resource "terraform_data" "copy_index" {
   depends_on = [aws_instance.public_ec2]
 
-  count = length(var.cidr_numeral_public)
+  count = length(var.availability_zones)
 
   connection {
     type = "ssh"
@@ -28,7 +28,7 @@ resource "terraform_data" "copy_index" {
 resource "terraform_data" "copy_key" {
   depends_on = [local_file.private_ec2_key, aws_ami_from_instance.public_ec2_ami]
 
-  count = length(var.cidr_numeral_public)
+  count = length(var.availability_zones)
 
   connection {
     type = "ssh"

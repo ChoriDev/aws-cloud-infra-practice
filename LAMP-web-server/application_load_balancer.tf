@@ -7,7 +7,7 @@ resource "aws_lb" "alb_public" {
   
   # Indicate which subnet in the availability zone will receive traffic
   dynamic "subnet_mapping" {
-    for_each = toset(aws_subnet.public)
+    for_each = toset(aws_subnet.public_for_ec2)
     content {
       subnet_id = subnet_mapping.value.id
     }

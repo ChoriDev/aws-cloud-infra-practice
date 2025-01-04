@@ -37,3 +37,11 @@ resource "aws_route_table_association" "private" {
   subnet_id = element(aws_subnet.private.*.id, count.index)
   route_table_id = element(aws_route_table.private.*.id, count.index)
 }
+
+# Route for private subnets
+resource "aws_route" "private_nat" {
+  count = length(var.cidr_numeral_private)
+  route_table_id = element(aws_route_table.private.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = element(aws_nat_gateway.main.*.id, count.index)
+}

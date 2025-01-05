@@ -116,10 +116,10 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_ef
   ip_protocol = "-1"
 }
 
-# Security group for ALB
+# Security group for public ALB
 resource "aws_security_group" "alb_public_sg" {
   name = "alb-public-sg"
-  description = "Security group for alb"
+  description = "Security group for public alb"
   vpc_id = aws_vpc.main.id
 
   tags = {
@@ -127,8 +127,8 @@ resource "aws_security_group" "alb_public_sg" {
   }
 }
 
-# Inbound rule allowing HTTP for ALB
-resource "aws_vpc_security_group_ingress_rule" "allow_http_for_alb" {
+# Inbound rule allowing HTTP for public ALB
+resource "aws_vpc_security_group_ingress_rule" "allow_http_for_public_alb" {
   security_group_id = aws_security_group.alb_public_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   from_port = 80
@@ -136,9 +136,35 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_for_alb" {
   to_port = 80
 }
 
-# Outbound rule allowing all traffic for ALB
-resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_alb" {
+# Outbound rule allowing all traffic for public ALB
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_public_alb" {
   security_group_id = aws_security_group.alb_public_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
+  ip_protocol = "-1"
+}
+
+# Security group for private ALB
+resource "aws_security_group" "alb_private_sg" {
+  name = "alb-private-sg"
+  description = "Secutiry group for private alb"
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "alb-private-sg"
+  }
+}
+
+# Inbound rule allowing HTTP for private ALB
+resource "aws_vpc_security_group_ingress_rule" "allow_http_for_private_alb" {
+  security_group_id = aws_security_group.alb_private_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port = 80
+  ip_protocol = "tcp"
+  to_port = 80
+}
+
+# Outbound rule allowing all traffic for private ALB
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_private_alb" {
+  security_group_id = aws_security_group.alb_private_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = "-1"
 }

@@ -1,12 +1,12 @@
-resource "terraform_data" "copy_index" {
-  depends_on = [aws_instance.public_ec2]
+resource "terraform_data" "copy_php" {
+  depends_on = [aws_instance.public_ec2, local_file.dbinfo_file]
 
   count = length(var.availability_zones)
 
   connection {
-    type = "ssh"
-    user = "ec2-user"
-    host = element(aws_eip.public_ec2.*.public_ip, count.index)
+    type        = "ssh"
+    user        = "ec2-user"
+    host        = element(aws_eip.public_ec2.*.public_ip, count.index)
     private_key = tls_private_key.ec2_private_key.*.private_key_pem[0]
   }
 
@@ -20,8 +20,20 @@ resource "terraform_data" "copy_index" {
   }
 
   provisioner "file" {
-    source = "${path.module}/index.php"
+    source      = "${path.module}/index.php"
     destination = "/var/www/html/index.php"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/dbinfo.inc"
+    destination = "/var/www/html/dbinfo.inc"
+  }
+}
+
+resource "terraform_data" "delete_dbinfo_file" {
+  depends_on = [aws_ami_from_instance.public_ec2_ami]
+  provisioner "local-exec" {
+    command = "rm -f ${path.module}/dbinfo.inc"
   }
 }
 
@@ -31,9 +43,9 @@ resource "terraform_data" "copy_key" {
   count = length(var.availability_zones)
 
   connection {
-    type = "ssh"
-    user = "ec2-user"
-    host = element(aws_eip.public_ec2.*.public_ip, count.index)
+    type        = "ssh"
+    user        = "ec2-user"
+    host        = element(aws_eip.public_ec2.*.public_ip, count.index)
     private_key = tls_private_key.ec2_private_key.*.private_key_pem[0]
   }
 
@@ -44,7 +56,7 @@ resource "terraform_data" "copy_key" {
   }
 
   provisioner "file" {
-    source = "${path.module}/${local_file.private_ec2_key.filename}"
+    source      = "${path.module}/${local_file.private_ec2_key.filename}"
     destination = "/home/ec2-user/keys/${local_file.private_ec2_key.filename}"
   }
 

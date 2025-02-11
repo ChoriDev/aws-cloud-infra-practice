@@ -1,21 +1,21 @@
 # Public ec2
 resource "aws_instance" "public_ec2" {
-  count = length(var.availability_zones)
-  ami = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86
-  instance_type = "t2.micro"
-  key_name = aws_key_pair.public_ec2_key_pair.key_name
+  count                  = length(var.availability_zones)
+  ami                    = "ami-048c8b90bfe9b49b8" # Amazon Linux 2, x86
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.public_ec2_key_pair.key_name
   vpc_security_group_ids = [aws_security_group.public_ec2_sg.id]
-  subnet_id = element(aws_subnet.public_for_ec2.*.id, count.index)
+  subnet_id              = element(aws_subnet.public_for_ec2.*.id, count.index)
 
   tags = {
     Name = "public-ec2-${count.index}-${var.vpc_name}"
   }
 
   metadata_options {
-    http_endpoint = "enabled"
+    http_endpoint               = "enabled"
     http_put_response_hop_limit = 1
-    http_tokens = "optional"
-    instance_metadata_tags = "enabled"
+    http_tokens                 = "optional"
+    instance_metadata_tags      = "enabled"
   }
 
   user_data = <<-EOF
@@ -35,21 +35,21 @@ resource "aws_instance" "public_ec2" {
 
 # Private ec2
 resource "aws_instance" "private_ec2" {
-  count = length(var.availability_zones)
-  ami = aws_ami_from_instance.public_ec2_ami.id # public ec2 ami
-  instance_type = "t2.micro"
-  key_name = aws_key_pair.private_ec2_key_pair.key_name
+  count                  = length(var.availability_zones)
+  ami                    = aws_ami_from_instance.public_ec2_ami.id # public ec2 ami
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.private_ec2_key_pair.key_name
   vpc_security_group_ids = [aws_security_group.private_ec2_sg.id]
-  subnet_id = element(aws_subnet.private_for_ec2.*.id, count.index)
+  subnet_id              = element(aws_subnet.private_for_ec2.*.id, count.index)
 
   tags = {
     Name = "private-ec2-${count.index}-${var.vpc_name}"
   }
 
   metadata_options {
-    http_endpoint = "enabled"
+    http_endpoint               = "enabled"
     http_put_response_hop_limit = 1
-    http_tokens = "optional"
-    instance_metadata_tags = "enabled"
+    http_tokens                 = "optional"
+    instance_metadata_tags      = "enabled"
   }
 }

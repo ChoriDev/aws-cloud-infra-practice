@@ -25,3 +25,19 @@ resource "aws_db_instance" "rds" {
   deletion_protection             = false
   skip_final_snapshot             = true
 }
+
+resource "aws_db_instance" "rds_rr" {
+  identifier                 = "rds-rr"
+  replicate_source_db        = aws_db_instance.rds.identifier
+  instance_class             = "db.t3.micro"
+  storage_type               = "gp2"
+  max_allocated_storage      = 0
+  auto_minor_version_upgrade = true
+  multi_az                   = false
+  availability_zone          = var.availability_zones[1]
+  vpc_security_group_ids     = [aws_security_group.rds_sg.id]
+  publicly_accessible        = false
+  copy_tags_to_snapshot      = false
+  deletion_protection        = false
+  skip_final_snapshot        = true
+}

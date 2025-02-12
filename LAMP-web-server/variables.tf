@@ -7,7 +7,7 @@ variable "availability_zones" {
 }
 
 variable "cidr_numeral_public_ec2" {
-  type = list(number) 
+  type = list(number)
 }
 
 variable "cidr_numeral_private_ec2" {

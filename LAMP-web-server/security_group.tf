@@ -116,6 +116,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_ef
   ip_protocol       = "-1"
 }
 
+/*
 # Security group for public ALB
 resource "aws_security_group" "alb_public_sg" {
   name        = "alb-public-sg"
@@ -142,6 +143,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_traffic_for_pu
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
+*/
 
 # Security group for private ALB
 resource "aws_security_group" "alb_private_sg" {

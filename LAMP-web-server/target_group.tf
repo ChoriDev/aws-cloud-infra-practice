@@ -20,7 +20,7 @@ resource "aws_lb_target_group" "alb_public_tg" {
   }
 
   tags = {
-    Name = "alb-public-tf-${var.vpc_name}"
+    Name = "alb-public-tg-${var.vpc_name}"
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "alb_private_tg" {
   }
 
   tags = {
-    Name = "alb-private-tf-${var.vpc_name}"
+    Name = "alb-private-tg-${var.vpc_name}"
   }
 }
 
